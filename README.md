@@ -15,7 +15,7 @@ Este repositorio contiene un **playbook de Ansible** para instalar y desplegar *
    git clone https://github.com/tu_usuario/ansible-jellyfin.git
    cd ansible-jellyfin
 
-⚠️ Este paso es si da fallo por AppArmor ⚠️
+## ⚠️ El siguiente paso es si da fallo por AppArmor ⚠️
 
 Si te da fallo al levantar el playbook hay que instalar appArmor e hacer estos pasos:
 
