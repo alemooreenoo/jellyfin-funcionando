@@ -3,7 +3,7 @@
   become: true
   tasks:
 
-    - name: Instalar dependencias
+    - name: Instalar dependencias del sistema
       apt:
         name:
           - docker.io
@@ -11,10 +11,9 @@
         state: present
       when: ansible_os_family == "Debian"
 
-    - name: Instalar módulo Docker para Python
-      pip:
-        name: docker
-        state: present
+    - name: Forzar instalación del módulo Docker para Python con pip
+      command: python3 -m pip install docker --break-system-packages
+      become: true
 
     - name: Crear volumen para Jellyfin
       docker_volume:
