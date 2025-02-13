@@ -17,11 +17,12 @@ Este repositorio contiene un **playbook de Ansible** para instalar y desplegar *
 
 Si te da fallo al levantar el playbook hay que instalar appArmor e hacer estos pasos:
 
+```bash
 sudo apt update
 sudo apt install apparmor apparmor-utils
 sudo systemctl enable apparmor
 sudo systemctl start apparmor
-
+```
 Luego, reinicia el servicio Docker:
 
 sudo systemctl restart docker
