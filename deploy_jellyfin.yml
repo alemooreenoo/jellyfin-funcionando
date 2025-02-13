@@ -1,0 +1,41 @@
+- name: Desplegar Jellyfin con Docker
+  hosts: servidores
+  become: true
+  tasks:
+
+    - name: Instalar dependencias
+      apt:
+        name:
+          - docker.io
+          - python3-pip
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Instalar módulo Docker para Python
+      pip:
+        name: docker
+        state: present
+
+    - name: Crear volumen para Jellyfin
+      docker_volume:
+        name: jellyfin_config
+
+    - name: Iniciar contenedor de Jellyfin
+      docker_container:
+        name: jellyfin
+        image: jellyfin/jellyfin
+        restart_policy: always
+        ports:
+          - "8096:8096"
+        volumes:
+          - jellyfin_config:/config
+          - /mnt/media:/media  # Ajusta la ruta según tu servidor
+        env:
+          TZ: "Europe/Madrid"
+
+    - name: Verificar estado del contenedor
+      command: docker ps -a
+      register: docker_status
+
+    - debug:
+        msg: "{{ docker_status.stdout_lines }}"
