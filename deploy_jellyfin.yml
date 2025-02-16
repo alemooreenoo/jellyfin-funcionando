@@ -8,8 +8,25 @@
         name:
           - docker.io
           - python3-pip
+          - apparmor
         state: present
       when: ansible_os_family == "Debian"
+
+    - name: Iniciar AppArmor
+      command: systemctl start apparmor
+      become: true
+
+    - name: Reiniciar Docker
+      command: systemctl restart docker
+      become: true
+
+    - name: Deshabilitar AppArmor para Docker
+      command: aa-disable /etc/apparmor.d/docker
+      become: true
+
+    - name: Reiniciar Docker nuevamente
+      command: systemctl restart docker
+      become: true
 
     - name: Forzar instalación del módulo Docker para Python con pip
       command: python3 -m pip install docker --break-system-packages
